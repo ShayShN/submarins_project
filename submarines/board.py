@@ -1,4 +1,7 @@
 
+from submarines.placement import place_random_ships
+
+
 def ask_size():
     while True:
         user_input = input("enter a size of matrix: ")
@@ -19,8 +22,13 @@ def create_matrix(size: int=5, fill: int = 0) -> list[list[int]]:
 
 def create_bool_matrix(size: int, fill: bool = False) -> list[list[bool]]:
     matrix_bol = []
-    pass
-
+    for i in range(size):
+        arr_bol = []
+        for j in range(size):
+            arr_bol.append(fill)
+        matrix_bol.append(arr_bol)
+    return matrix_bol 
+#    
 def in_bounds(size: int, x: int, y: int) -> bool:
     return  x <= size >= y 
 
@@ -37,12 +45,22 @@ def render_public(ships: list[list[int]], shots: list[list[bool]]) -> str:
     for i in range(ships):
         arr = []
         for j in range(i):
-            if shots[i][j] == True:
+            if ships[i][j] == 1 and shots[i][j] == True:
                 arr[i][j].append("V")
-            if shots[i][j] == False:
+            if ships[i][j] == 0 and shots[i][j] == True:
                 arr[i][j].append("X")
-            else:
+            if shots[i][j] == False:
                 arr[i][j].append("O")
         matrix_str.append(arr)
     return matrix_str
+
+def render_reveal(ships: list[list[int]], shots: list[list[bool]]) -> str:
+    place_random_ships(ships, 3)
+    for i in range(ships):
+         for j in range(i):
+             if ships[i][j] == 1:
+                 shots[i][j] = True
+    return ships
+             
+
                         
